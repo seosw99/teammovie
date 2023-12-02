@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getData } from './getData';
+import Movie from './Movie'
+import { useState } from 'react';
+import {Button, Navbar, Nav, Container} from 'react-bootstrap';
+import './style.css';
+import { useSelector } from 'react-redux';
+import MovieNavbar from './MovieNavbar';
 
-function App() {
+export default function App() {
+
+  // let [movies, setMovies] = useState([]);
+  let navigate = useNavigate();
+  
+  // const loadMovie = async() => {
+  //   let res = await getData();
+  //   setMovies(res);
+  // };
+
+  // useEffect(() => {
+  //   loadMovie();
+  // }, []);
+
+  let movies = useSelector((state) => state.movies);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <MovieNavbar />
+      <div className="outer-div">
+        {
+          movies ? movies.map(function(a, i){
+            return (
+              <Movie movie={a} key={i}/>
+            )
+          }) : <span>로딩중..</span>
+        }
+      </div>
+    </>
   );
 }
 
-export default App;
+
